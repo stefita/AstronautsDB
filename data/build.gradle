@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    namespace 'com.stefita.astronautsdb.data'
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.retrofitGsonConverter
+
+    testImplementation rootProject.ext.junit
+    testImplementation rootProject.ext.mockito
+    androidTestImplementation rootProject.ext.androidTestRunner
+
+    implementation project(":domain")
+}

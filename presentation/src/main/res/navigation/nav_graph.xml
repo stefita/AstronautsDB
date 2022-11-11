@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/charactersListFragment">
+
+    <fragment
+        android:id="@+id/charactersListFragment"
+        android:name="com.stefita.astronautsdb.astrnauts.CharactersListFragment"
+        android:label="CharactersListFragment" >
+        <action
+            android:id="@+id/toDetailesViewr"
+            app:destination="@id/characterDetailsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/charactersListFragment">
+            <argument
+                android:name="character"
+                app:argType="com.stefita.presentation.entities.CharactersSource" />
+        </action>
+    </fragment>
+
+    <fragment android:id="@+id/characterDetailsFragment"
+        android:name="com.stefita.astronautsdb.astrnauts.CharacterDetailsFragment"
+        android:label="CharacterDetailFragment">
+        <argument
+            android:name="character"
+            app:argType="com.stefita.presentation.entities.CharactersSource" />
+
+    </fragment>
+</navigation>
