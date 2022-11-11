@@ -24,6 +24,14 @@ dependencies {
     implementation rootProject.ext.retrofit
     implementation rootProject.ext.retrofitGsonConverter
 
+    implementation rootProject.ext.room
+    implementation rootProject.ext.rxRoom
+    implementation rootProject.ext.roomKtx
+    kapt rootProject.ext.roomCompiler
+
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
+
     testImplementation rootProject.ext.junit
     testImplementation rootProject.ext.mockito
     androidTestImplementation rootProject.ext.androidTestRunner

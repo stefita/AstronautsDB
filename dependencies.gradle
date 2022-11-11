@@ -4,7 +4,7 @@ ext {
     minSdkVersion = 24
     targetSdkVersion = 33
     compileSdkVersion = 33
-    def room_version = "2.2.3"
+    def room_version = "2.4.3"
     def nav_version = "2.1.0"
     def lifecycle_version = "2.2.0"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
@@ -14,11 +14,9 @@ ext {
     roomKtx = "androidx.room:room-ktx:$room_version"
     roomCompiler = "androidx.room:room-compiler:$room_version"
     rxRoom = "androidx.room:room-rxjava2:$room_version"
-    rxJava = "io.reactivex.rxjava2:rxjava:2.1.6"
     retrofit = "com.squareup.retrofit2:retrofit:2.6.2"
     retrofitGsonConverter = "com.squareup.retrofit2:converter-moshi:2.6.2"
     retrofitRxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:2.6.2"
-    retrofitLoggingInterceptors = "com.squareup.okhttp3:logging-interceptor:3.8.0"
     navFragment = "androidx.navigation:navigation-fragment-ktx:$nav_version"
     navUi = "androidx.navigation:navigation-ui-ktx:$nav_version"
     lifecycleExt = "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"

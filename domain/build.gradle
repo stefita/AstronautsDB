@@ -6,7 +6,6 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation rootProject.ext.rxJava
 
     // https://github.com/Kotlin/kotlinx.coroutines
     def coroutines_version = "1.6.4"

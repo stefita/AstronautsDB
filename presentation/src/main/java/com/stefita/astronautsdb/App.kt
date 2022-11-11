@@ -2,6 +2,7 @@ package com.stefita.astronautsdb
 
 import android.app.Application
 import com.facebook.stetho.Stetho
+import com.stefita.astronautsdb.di.localModules
 import com.stefita.astronautsdb.di.networkModules
 import com.stefita.astronautsdb.di.repositoryModule
 import com.stefita.astronautsdb.di.useCaseModule
@@ -27,6 +28,7 @@ class App : Application() {
             modules(
                 networkModules,
                 viewModels,
+                localModules,
                 repositoryModule,
                 useCaseModule
             )

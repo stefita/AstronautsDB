@@ -10,8 +10,11 @@ class GetAstronautsUseCase(private val repository: AstronautRepository) :
 
     override suspend fun run(params: Params): Either<Failure, List<AstronautEntity>> {
         return try {
-            val charactersList = repository.getAstronauts()
-            Either.Right(charactersList)
+            val astronautsList = repository.getAstronauts(
+                params.limit,
+                params.offset
+            )
+            Either.Right(astronautsList)
         } catch (exp: Exception) {
             Either.Left(AstronautsListFailure(exp))
         }

@@ -9,7 +9,12 @@ class AstronautsRemoteImpl constructor(private val api: RemoteAstronautsApi): As
     private val astronautMapper = AstronautDataEntityMapper()
 
     override suspend fun getAstronauts(): List<AstronautEntity> {
-        val body = api.getAstronauts().body() ?: return emptyList()
+        val body = api.getAstronauts().body()?.results ?: return emptyList()
+        return body.map { astronautMapper.mapAstronautToEntity(it) }
+    }
+
+    override suspend fun getAstronauts(limit: Int, offset:Int): List<AstronautEntity> {
+        val body = api.getAstronauts(limit, offset).body()?.results ?: return emptyList()
         return body.map { astronautMapper.mapAstronautToEntity(it) }
     }
 }
