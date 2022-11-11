@@ -26,8 +26,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Home() {
     MaterialTheme {
-        Surface {
-            Text(text = "Test!")
+        Surface(color = MaterialTheme.colorScheme.background) {
+            Text(text = "Test!", color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
