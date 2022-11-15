@@ -1,4 +1,4 @@
-package com.stefita.astronautsdb.astrnauts
+package com.stefita.astronautsdb.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.stefita.astronautsdb.astrnauts.MainActivity"
+            android:name="com.stefita.astronautsdb.ui.MainActivity"
             android:exported="true"
             >
             <intent-filter>

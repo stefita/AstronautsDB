@@ -8,6 +8,19 @@ class AstronautsEntityMapper : Mapper<AstronautEntity, AstronautSource>() {
 
     override fun mapFrom(data: AstronautEntity): AstronautSource = AstronautSource(
         id = data.id,
-        name = data.name
+        name = data.name,
+        dateOfBirth = data.dateOfBirth,
+        age = data.age,
+        dateOfDeath = data.dateOfDeath,
+        profileImage = data.profileImage,
+        profileImageThumbnail = data.profileImageThumbnail,
+        status = data.status,
+        type = data.type,
+        bio = data.bio,
+        wiki = data.wiki,
+        firstFlight = data.firstFlight,
+        flightsCount = data.flights_count,
+        landingsCount = data.landingsCount,
+        nationality = data.nationality
     )
 }

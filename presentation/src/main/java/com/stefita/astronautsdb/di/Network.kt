@@ -46,6 +46,5 @@ private fun retrofitClient(baseUrl: String, httpClient: OkHttpClient): Retrofit 
     Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(httpClient)
-        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(MoshiConverterFactory.create())
         .build()

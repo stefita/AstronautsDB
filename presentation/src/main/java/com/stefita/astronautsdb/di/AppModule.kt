@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.stefita.data.api.RemoteAstronautsApi
 import com.stefita.data.repository.AstronautRepositoryImpl
 import com.stefita.data.repository.AstronautsRemoteImpl
-import com.stefita.astronautsdb.astrnauts.AstronautsViewModel
+import com.stefita.astronautsdb.ui.AstronautsViewModel
 import com.stefita.astronautsdb.mapper.AstronautsEntityMapper
 import com.stefita.data.db.AstronautDb
 import com.stefita.data.repository.AstronautCacheImpl
