@@ -30,8 +30,16 @@ fun AstronautsNavHost(
             )
         }
 
-        composable(route = AstronautDetails.route) {
-            AstronautDetailsScreen()
+        composable(
+            route = AstronautDetails.routeWithArgs,
+            arguments = AstronautDetails.arguments,
+            deepLinks = AstronautDetails.deepLinks
+        ) { navBackstackEntry ->
+
+            val astronautId = navBackstackEntry.arguments?.getInt(AstronautDetails.astronautIdArg)
+            astronautId?.let {
+                AstronautDetailsScreen(astronautId)
+            }
         }
     }
 }

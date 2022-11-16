@@ -47,10 +47,10 @@ fun AstronautsListScreen(
         is AstronautsViewModel.ListState.Success -> {
             LazyColumn(
                 contentPadding = PaddingValues(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items((state as AstronautsViewModel.ListState.Success).astronauts) {
-                    AstronautRow(astronautSource = it, onAstronautClicked = {})
+                    AstronautRow(astronautSource = it, onAstronautClicked = onAstronautClicked)
                 }
             }
         }
@@ -78,7 +78,7 @@ fun AstronautRow(astronautSource: AstronautSource, onAstronautClicked: (Int) -> 
                     .data(astronautSource.profileImageThumbnail)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(R.drawable.ic_astronaut),
+                placeholder = painterResource(R.mipmap.ic_launcher_foreground),
                 contentDescription = "test",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

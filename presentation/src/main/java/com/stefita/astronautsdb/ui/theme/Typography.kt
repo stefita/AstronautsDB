@@ -17,6 +17,12 @@ private val Exo2 = FontFamily(
 )
 
 val Typography = Typography(
+    titleLarge = TextStyle(
+        color = Gainsboro,
+        fontFamily = Exo2,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 22.sp
+    ),
     headlineSmall = TextStyle(
         color = PewterBlue50,
         fontFamily = Exo2,
