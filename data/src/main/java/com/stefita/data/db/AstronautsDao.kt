@@ -32,4 +32,7 @@ interface AstronautsDao {
 
         saveAllAstronauts(astronautsList)
     }
+
+    @Query("SELECT * FROM astronauts WHERE id = :astronautId")
+    suspend fun getAstronautById(astronautId: Int): AstronautData?
 }

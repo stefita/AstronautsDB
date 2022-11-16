@@ -44,25 +44,27 @@ data class AstronautData(
 
 class AstronautDataEntityMapper {
 
-    fun mapAstronautToEntity(data: AstronautData): AstronautEntity = AstronautEntity(
-        id = data.id,
-        name = data.name,
-        agency = data.agency?.mapDataToEntity(),
-        dateOfBirth = data.date_of_birth,
-        age = data.age,
-        dateOfDeath = data.date_of_death,
-        profileImage = data.profile_image,
-        profileImageThumbnail = data.profile_image_thumbnail,
-        bio = data.bio,
-        wiki = data.wiki,
-        firstFlight = data.first_flight,
-        lastFlight = data.last_flight,
-        flights_count = data.flights_count,
-        landingsCount = data.landings_count,
-        nationality = data.nationality,
-        status = data.status?.name,
-        type = data.type?.name
-    )
+    fun mapAstronautToEntity(data: AstronautData?): AstronautEntity? = data?.let {
+        AstronautEntity(
+            id = data.id,
+            name = data.name,
+            agency = data.agency?.mapDataToEntity(),
+            dateOfBirth = data.date_of_birth,
+            age = data.age,
+            dateOfDeath = data.date_of_death,
+            profileImage = data.profile_image,
+            profileImageThumbnail = data.profile_image_thumbnail,
+            bio = data.bio,
+            wiki = data.wiki,
+            firstFlight = data.first_flight,
+            lastFlight = data.last_flight,
+            flights_count = data.flights_count,
+            landingsCount = data.landings_count,
+            nationality = data.nationality,
+            status = data.status?.name,
+            type = data.type?.name
+        )
+    }
 }
 
 class AstronautEntityDataMapper {

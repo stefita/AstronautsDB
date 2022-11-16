@@ -11,18 +11,22 @@ class AstronautCacheImpl(database: AstronautDb) : AstronautDataStore {
     private val astronautDataEntityMapper = AstronautEntityDataMapper()
 
     override suspend fun getAstronauts(): List<AstronautEntity> {
-        return db.getAllAstronauts().map {
+        return db.getAllAstronauts().mapNotNull {
             astronautMapper.mapAstronautToEntity(it)
         }
     }
 
     override suspend fun getAstronauts(limit: Int, offset: Int): List<AstronautEntity> {
-        return db.getAllAstronauts(limit, offset).map {
+        return db.getAllAstronauts(limit, offset).mapNotNull {
             astronautMapper.mapAstronautToEntity(it)
         }
     }
 
     suspend fun insertAstronauts(list: List<AstronautEntity>) {
         db.saveListAstronauts(list, astronautDataEntityMapper)
+    }
+
+    override suspend fun getAstronautById(id: Int): AstronautEntity? {
+        return astronautMapper.mapAstronautToEntity(db.getAstronautById(id))
     }
 }

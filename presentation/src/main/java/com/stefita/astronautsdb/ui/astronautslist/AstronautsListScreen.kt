@@ -32,7 +32,6 @@ import coil.request.ImageRequest
 import com.stefita.astronautsdb.entities.Agency
 import com.stefita.astronautsdb.entities.AstronautSource
 import com.stefita.astronautsdb.presentation.R
-import com.stefita.astronautsdb.ui.AstronautsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -41,6 +40,8 @@ fun AstronautsListScreen(
     viewModel: AstronautsViewModel = koinViewModel(),
     onAstronautClicked: (Int) -> Unit
 ) {
+
+    // Use viewmodel init to load list data
     val state by viewModel.state.observeAsState()
 
     when (state) {

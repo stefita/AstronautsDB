@@ -1,26 +1,38 @@
 package com.stefita.astronautsdb.ui.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.stefita.astronautsdb.ui.astronautdetails.AstronautDetailsScreen
 import com.stefita.astronautsdb.ui.astronautslist.AstronautsListScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AstronautsNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = AstronautsList.route,
         modifier = modifier
     ) {
 
-        composable(route = AstronautsList.route) {
+        composable(
+            route = AstronautsList.route,
+            enterTransition = {
+                // Let's make for a really long fade in
+                slideInHorizontally(initialOffsetX = { 600 })
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { 600 })
+            }
+        ) {
             AstronautsListScreen(
                 onAstronautClicked = { astronautId ->
                     navController.navigateToAstronautDetails(
@@ -33,12 +45,12 @@ fun AstronautsNavHost(
         composable(
             route = AstronautDetails.routeWithArgs,
             arguments = AstronautDetails.arguments,
-            deepLinks = AstronautDetails.deepLinks
+            deepLinks = AstronautDetails.deepLinks,
         ) { navBackstackEntry ->
 
             val astronautId = navBackstackEntry.arguments?.getInt(AstronautDetails.astronautIdArg)
             astronautId?.let {
-                AstronautDetailsScreen(astronautId)
+                AstronautDetailsScreen(astronautId = astronautId)
             }
         }
     }

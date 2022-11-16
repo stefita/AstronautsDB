@@ -4,11 +4,13 @@ import androidx.room.Room
 import com.stefita.data.api.RemoteAstronautsApi
 import com.stefita.data.repository.AstronautRepositoryImpl
 import com.stefita.data.repository.AstronautsRemoteImpl
-import com.stefita.astronautsdb.ui.AstronautsViewModel
+import com.stefita.astronautsdb.ui.astronautslist.AstronautsViewModel
 import com.stefita.astronautsdb.mapper.AstronautsEntityMapper
+import com.stefita.astronautsdb.ui.astronautdetails.AstronautDetailsViewModel
 import com.stefita.data.db.AstronautDb
 import com.stefita.data.repository.AstronautCacheImpl
 import com.stefita.domain.repositories.AstronautRepository
+import com.stefita.domain.usecases.GetAstronautByIdUseCase
 import com.stefita.domain.usecases.GetAstronautsUseCase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -23,6 +25,7 @@ val repositoryModule = module {
 
 val useCaseModule = module {
     factory { GetAstronautsUseCase(get()) }
+    factory { GetAstronautByIdUseCase(get()) }
 }
 
 val networkModules = module {
@@ -37,6 +40,9 @@ val localModules = module {
 val viewModels = module {
     viewModel {
         AstronautsViewModel(getAstronautsUseCase = get(), mapper = AstronautsEntityMapper())
+    }
+    viewModel {
+        AstronautDetailsViewModel(getAstronautByIdUseCase = get(), mapper = AstronautsEntityMapper())
     }
 }
 

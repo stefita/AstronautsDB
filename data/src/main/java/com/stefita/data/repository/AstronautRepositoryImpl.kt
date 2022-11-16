@@ -32,6 +32,10 @@ class AstronautRepositoryImpl(
         }
     }
 
+    override suspend fun getAstronautById(astronautId: Int): AstronautEntity? {
+        return local.getAstronautById(astronautId)
+    }
+
     private suspend fun getRemoteAstronauts(): List<AstronautEntity> {
         return remote.getAstronauts()
     }

@@ -5,6 +5,7 @@ import com.stefita.data.entities.AstronautsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RemoteAstronautsApi {
@@ -19,4 +20,10 @@ interface RemoteAstronautsApi {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): Response<AstronautsResponse>
+
+    @Headers("Accept: application/json")
+    @GET("astronaut/{id}/")
+    suspend fun getAstronautById(
+        @Path("id") id: Int
+    ): Response<AstronautData>
 }

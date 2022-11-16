@@ -7,4 +7,6 @@ interface AstronautDataStore {
     suspend fun getAstronauts(): List<AstronautEntity>
 
     suspend fun getAstronauts(limit: Int, offset: Int): List<AstronautEntity>
+
+    suspend fun getAstronautById(id: Int): AstronautEntity?
 }
