@@ -16,6 +16,7 @@ val PewterBlue = Color(0xFF79a6af)
 val PewterBlue50 = Color(0xFF5c8f99)
 val Gainsboro = Color(0xFFdddddd)
 val DavysGrey = Color(0xFF46494f)
+val RichBlack29Alpha = Color(0x3013151B)
 
 // Rally is always dark themed.
 val ColorPalette = darkColorScheme(
