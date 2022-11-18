@@ -2,10 +2,15 @@ package com.stefita.astronautsdb.ui.astronautdetails
 
 import AstronautsDbTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
@@ -66,12 +71,19 @@ fun AstronautDetailsCard(astronaut: AstronautSource, modifier: Modifier = Modifi
         color = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) {
-        ProfilePicture(imgUrl = astronaut.profileImage, name = astronaut.name)
+        // TODO Follow orientation change to adapt image/content layout
+        BoxWithConstraints {
+            if (maxWidth < 480.dp) {
+                ProfilePictureSmallMedium(imgUrl = astronaut.profileImage, name = astronaut.name)
+            } else {
+                ProfilePictureLarge(imgUrl = astronaut.profileImage, name = astronaut.name)
+            }
+        }
     }
 }
 
 @Composable
-fun ProfilePicture(imgUrl: String, name: String) {
+fun ProfilePictureSmallMedium(imgUrl: String, name: String) {
     Box(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -108,11 +120,53 @@ fun ProfilePicture(imgUrl: String, name: String) {
     }
 }
 
+@Composable
+fun ProfilePictureLarge(imgUrl: String, name: String) {
+    Box(
+        contentAlignment = Alignment.TopStart,
+        modifier = Modifier
+            .width(480.dp)
+    ) {
+        Box(modifier = Modifier.fillMaxWidth().height(480.dp)) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imgUrl)
+                    .memoryCacheKey(imgUrl)
+                    .diskCacheKey(imgUrl)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .build(),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+            )
+
+            ElevatedCard(
+                shape = RoundedCornerShape(8.dp),
+                colors = CardDefaults.cardColors(containerColor = RichBlack29Alpha),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                )
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun ProfilePicturePreview() {
     AstronautsDbTheme {
-        ProfilePicture(
+        ProfilePictureSmallMedium(
             imgUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/astronaut_images/claude2520nicollier_image_20181127203218.jpg",
             name = "Claude Nicollier"
         )
