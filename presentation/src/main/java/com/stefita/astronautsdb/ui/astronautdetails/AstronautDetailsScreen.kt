@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.stefita.astronautsdb.entities.AstronautSource
 import com.stefita.astronautsdb.ui.theme.Gainsboro
@@ -77,7 +78,10 @@ fun ProfilePicture(imgUrl: String, name: String) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imgUrl)
-                .crossfade(true)
+                .memoryCacheKey(imgUrl)
+                .diskCacheKey(imgUrl)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .memoryCachePolicy(CachePolicy.ENABLED)
                 .build(),
             contentDescription = "",
             contentScale = ContentScale.Crop,
@@ -95,7 +99,6 @@ fun ProfilePicture(imgUrl: String, name: String) {
                 .align(Alignment.BottomStart)
                 .padding(8.dp)
         ) {
-
             Text(
                 text = name,
                 style = MaterialTheme.typography.headlineLarge,
