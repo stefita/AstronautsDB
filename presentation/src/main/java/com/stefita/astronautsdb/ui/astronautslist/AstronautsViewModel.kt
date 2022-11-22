@@ -9,6 +9,7 @@ import com.stefita.domain.common.Mapper
 import com.stefita.domain.entities.AstronautEntity
 import com.stefita.domain.usecases.GetAstronautsUseCase
 
+// TODO use paging for paginated data
 class AstronautsViewModel(
     private val getAstronautsUseCase: GetAstronautsUseCase,
     private val mapper: Mapper<AstronautEntity, AstronautSource>

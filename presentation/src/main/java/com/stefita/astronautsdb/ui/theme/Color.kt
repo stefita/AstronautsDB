@@ -12,7 +12,7 @@ val PrussianBlue = Color(0xFF0c2231)
 
 val RichBlack = Color(0xFF222530)
 val RichBlack29 = Color(0xFF13151B)
-val PewterBlue = Color(0xFF79a6af)
+val PewterBlue = Color(0x8079A6AF)
 val PewterBlue50 = Color(0xFF5c8f99)
 val Gainsboro = Color(0xFFdddddd)
 val DavysGrey = Color(0xFF46494f)

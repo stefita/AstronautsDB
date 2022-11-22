@@ -41,7 +41,7 @@ import com.stefita.astronautsdb.entities.AstronautSource
 import com.stefita.astronautsdb.presentation.R
 import org.koin.androidx.compose.koinViewModel
 
-
+// TODO Show more useful data underneath name
 @Composable
 fun AstronautsListScreen(
     viewModel: AstronautsViewModel = koinViewModel(),
