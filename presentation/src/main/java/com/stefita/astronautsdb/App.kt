@@ -6,12 +6,12 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.facebook.stetho.Stetho
-import com.stefita.astronautsdb.di.localModules
-import com.stefita.astronautsdb.di.networkModules
 import com.stefita.astronautsdb.di.repositoryModule
 import com.stefita.astronautsdb.di.useCaseModule
 import com.stefita.astronautsdb.di.viewModels
 import com.stefita.astronautsdb.presentation.BuildConfig
+import com.stefita.data.di.dbModule
+import com.stefita.data.di.networkModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -32,7 +32,7 @@ class App : Application(), ImageLoaderFactory {
             modules(
                 networkModules,
                 viewModels,
-                localModules,
+                dbModule,
                 repositoryModule,
                 useCaseModule
             )

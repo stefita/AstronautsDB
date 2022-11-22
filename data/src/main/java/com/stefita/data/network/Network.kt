@@ -1,7 +1,7 @@
-package com.stefita.astronautsdb.di
+package com.stefita.data.network
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.stefita.astronautsdb.presentation.BuildConfig
+import com.stefita.astronautsdb.data.BuildConfig
 import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -9,7 +9,6 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 fun createNetworkClient(baseUrl: String) =

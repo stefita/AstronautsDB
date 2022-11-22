@@ -12,29 +12,32 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def projectDependencies = rootProject.ext.dependancies
 
-    implementation rootProject.ext.retrofit
-    implementation rootProject.ext.retrofitGsonConverter
+    implementation projectDependencies.OKHTTP3
+    implementation projectDependencies.OKHTTP3_LOGGING
 
-    implementation rootProject.ext.room
-    implementation rootProject.ext.rxRoom
-    implementation rootProject.ext.roomKtx
-    kapt rootProject.ext.roomCompiler
+    // Retrofit
+    implementation projectDependencies.RETROFIT
+    implementation projectDependencies.RETROFIT_MOSHI
+    implementation projectDependencies.RETROFIT_SCALARS
+    implementation projectDependencies.RETROFIT_COROUTINES
 
-    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
-    implementation "androidx.paging:paging-compose:1.0.0-alpha17"
+    // https://github.com/facebook/stetho
+    implementation projectDependencies.STETO
+    implementation projectDependencies.STETO_HTTP3
 
-    testImplementation rootProject.ext.junit
-    testImplementation rootProject.ext.mockito
-    androidTestImplementation rootProject.ext.androidTestRunner
+    implementation projectDependencies.ROOM
+    implementation projectDependencies.ROOM_KTX
+    kapt projectDependencies.ROOM_COMPILER
+
+    implementation projectDependencies.KOIN
+
+    testImplementation projectDependencies.JUNIT4
 
     implementation project(":domain")
 }

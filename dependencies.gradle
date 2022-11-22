@@ -1,30 +1,73 @@
 ext {
-
     // Android
     minSdkVersion = 24
     targetSdkVersion = 33
     compileSdkVersion = 33
-    def room_version = "2.4.3"
-    def nav_version = "2.1.0"
-    def lifecycle_version = "2.2.0"
-    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-
-    androidSupportLibVersion = '1.0.0'
-    room = "androidx.room:room-runtime:$room_version"
-    roomKtx = "androidx.room:room-ktx:$room_version"
-    roomCompiler = "androidx.room:room-compiler:$room_version"
-    rxRoom = "androidx.room:room-rxjava2:$room_version"
-    retrofit = "com.squareup.retrofit2:retrofit:2.6.2"
-    retrofitGsonConverter = "com.squareup.retrofit2:converter-moshi:2.6.2"
-    retrofitRxJava2Adapter = "com.squareup.retrofit2:adapter-rxjava2:2.6.2"
-    navFragment = "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    navUi = "androidx.navigation:navigation-ui-ktx:$nav_version"
-    lifecycleExt = "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    lifecycleCommon = "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
-    // Testing
-    junit = "junit:junit:4.12"
-    mockito = "org.mockito:mockito-core:2.8.47"
-    androidTestRunner = 'androidx.test:runner:1.1.0-alpha4'
 }
+
+ext.versions = [
+        ROOM                : "2.4.3",
+        RETROFIT            : "2.9.0",
+        RETROFIT_COROUTINES : "1.0.0",
+        LIFECYCLE           : "2.5.1",
+        STETO               : "1.5.1",
+        KOIN                : "3.2.3",
+        KOIN_COMPOSE        : "3.2.2",
+        COMPOSE             : "1.3.1",
+        COMPOSE_ACTIVITY    : "1.6.1",
+        COMPOSE_MATERIAL3   : "1.0.1",
+        ACCOMPANIST         : "0.27.0",
+        COIL                : "2.2.2",
+        COIL_COMPOSE        : "2.2.1",
+        COROUTINES          : "1.6.4",
+        OKHTTP3             : "4.10.0",
+        JUNIT4              : "4.13.1"
+]
+
+ext.dependancies = [
+        COROUTINES_CORE             : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.COROUTINES",
+        COROUTINES_ANDROID          : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.COROUTINES",
+
+        LIFECYCLE_COMMON            : "androidx.lifecycle:lifecycle-common-java8:$versions.LIFECYCLE",
+        LIVECYCLE_LIVEDATA          : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.LIFECYCLE",
+        LIVECYCLE_VIEMODEL          : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.LIFECYCLE",
+        LIVECYCLE_VIEMODEL_COMPOSE  : "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.LIFECYCLE",
+
+        OKHTTP3                     : "com.squareup.okhttp3:okhttp:$versions.OKHTTP3",
+        OKHTTP3_LOGGING             : "com.squareup.okhttp3:logging-interceptor:$versions.OKHTTP3",
+
+        RETROFIT                    : "com.squareup.retrofit2:retrofit:$versions.RETROFIT",
+        RETROFIT_MOSHI              : "com.squareup.retrofit2:converter-moshi:$versions.RETROFIT",
+        RETROFIT_SCALARS            : "com.squareup.retrofit2:converter-scalars:$versions.RETROFIT",
+        RETROFIT_COROUTINES         : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:$versions.RETROFIT_COROUTINES",
+
+        STETO                       : "com.facebook.stetho:stetho:$versions.STETO",
+        STETO_HTTP3                 : "com.facebook.stetho:stetho-okhttp3:$versions.STETO",
+
+        ROOM                        : "androidx.room:room-runtime:$versions.ROOM",
+        ROOM_KTX                    : "androidx.room:room-ktx:$versions.ROOM",
+        ROOM_COMPILER               : "androidx.room:room-compiler:$versions.ROOM",
+
+        KOIN                        : "io.insert-koin:koin-android:$versions.KOIN",
+        KOIN_COMPOSE                : "io.insert-koin:koin-androidx-compose:$versions.KOIN_COMPOSE",
+
+        COMPOSE_ACTIVITY            : "androidx.activity:activity-compose:$versions.COMPOSE_ACTIVITY",
+        COMPOSE_UI                  : "androidx.compose.ui:ui:$versions.COMPOSE",
+        COMPOSE_FOUNDATION          : "androidx.compose.foundation:foundation:$versions.COMPOSE",
+        COMPOSE_FOUNDATION_LAYOUT   : "androidx.compose.foundation:foundation-layout:$versions.COMPOSE",
+        COMPOSE_GRAPHICS            : "androidx.compose.ui:ui-graphics:$versions.COMPOSE",
+        COMPOSE_TOOLING             : "androidx.compose.ui:ui-tooling:$versions.COMPOSE",
+        COMPOSE_TOOLING_PREVIEW     : "androidx.compose.ui:ui-tooling-preview:$versions.COMPOSE",
+        COMPOSE_RUNTIME             : "androidx.compose.runtime:runtime:$versions.COMPOSE",
+        COMPOSE_RUNTIME_LIVEDATA    : "androidx.compose.runtime:runtime-livedata:$versions.COMPOSE",
+        COMPOSE_ANIMATION           : "androidx.compose.animation:animation:$versions.COMPOSE",
+        COMPOSE_MATERIAL3           : "androidx.compose.material3:material3:$versions.COMPOSE_MATERIAL3",
+        ACCOMPANIST_NAV_ANIMATION   : "com.google.accompanist:accompanist-navigation-animation:$versions.ACCOMPANIST",
+
+        COIL                        : "io.coil-kt:coil:$versions.COIL",
+        COIL_COMPOSE                : "io.coil-kt:coil-compose:$versions.COIL_COMPOSE",
+
+        JUNIT4                      : "junit:junit:$versions.JUNIT4",
+        COMPOSE_JUNIT4              : "androidx.compose.ui:ui-test-junit4:$versions.COMPOSE",
+        COMPOSE_TEST_MANIFEST       : "androidx.compose.ui:ui-test-manifest:$versions.COMPOSE",
+]

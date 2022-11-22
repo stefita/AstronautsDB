@@ -7,17 +7,15 @@ plugins {
 
 android {
     namespace 'com.stefita.astronautsdb.presentation'
-    compileSdkVersion 33
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.stefita.astronautsdb"
-        minSdkVersion 24
-        targetSdkVersion 33
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
+        versionName "1.0"}
 
     buildFeatures {
         compose true
@@ -45,79 +43,41 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    def projectDependencies = rootProject.ext.dependancies
 
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
+    implementation projectDependencies.LIFECYCLE_COMMON
+    implementation projectDependencies.LIVECYCLE_LIVEDATA
+    implementation projectDependencies.LIVECYCLE_VIEMODEL
+    implementation projectDependencies.LIVECYCLE_VIEMODEL_COMPOSE
 
-    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+    implementation projectDependencies.KOIN
+    implementation projectDependencies.KOIN_COMPOSE
 
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation projectDependencies.COROUTINES_CORE
+    implementation projectDependencies.COROUTINES_ANDROID
 
-    implementation rootProject.ext.retrofit
-    implementation rootProject.ext.retrofitGsonConverter
-    implementation rootProject.ext.retrofitRxJava2Adapter
+    implementation projectDependencies.COMPOSE_ACTIVITY
+    implementation projectDependencies.COMPOSE_UI
+    implementation projectDependencies.COMPOSE_GRAPHICS
+    implementation projectDependencies.COMPOSE_TOOLING
+    implementation projectDependencies.COMPOSE_TOOLING_PREVIEW
+    implementation projectDependencies.COMPOSE_MATERIAL3
+    implementation projectDependencies.COMPOSE_RUNTIME
+    implementation projectDependencies.COMPOSE_RUNTIME_LIVEDATA
+    implementation projectDependencies.COMPOSE_FOUNDATION
+    implementation projectDependencies.COMPOSE_FOUNDATION_LAYOUT
+    implementation projectDependencies.COMPOSE_ANIMATION
+    implementation projectDependencies.ACCOMPANIST_NAV_ANIMATION
 
-    // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation projectDependencies.COIL
+    implementation projectDependencies.COIL_COMPOSE
 
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation projectDependencies.STETO
 
-    implementation "io.insert-koin:koin-core:3.2.2"
-    implementation "io.insert-koin:koin-android:3.2.3"
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-
-    implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-graphics:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0'
-    implementation "androidx.compose.runtime:runtime-livedata:1.3.1"
-    implementation "androidx.compose.runtime:runtime:$compose_version"
-    implementation "androidx.compose.foundation:foundation:$compose_version"
-    implementation "androidx.compose.foundation:foundation-layout:$compose_version"
-    implementation "androidx.compose.animation:animation:$compose_version"
-    implementation 'androidx.room:room-ktx:2.4.3'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
-
-    implementation "com.google.accompanist:accompanist-navigation-animation:0.27.0"
-
-    testImplementation rootProject.ext.junit
-    testImplementation rootProject.ext.mockito
-    androidTestImplementation rootProject.ext.androidTestRunner
-    androidTestImplementation 'org.mockito:mockito-android:2.18.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-rc01'
-
-    // https://github.com/facebook/stetho
-    def stetho_version = "1.5.1"
-    implementation "com.facebook.stetho:stetho:$stetho_version"
-    implementation "com.facebook.stetho:stetho-okhttp3:$stetho_version"
-
-    // https://github.com/coil-kt/coil
-    implementation("io.coil-kt:coil:2.2.2")
-    implementation "io.coil-kt:coil-compose:2.2.1"
-
-//    // Koin main features for Android
-//    implementation "io.insert-koin:koin-android:$koin_android_version"
-//    // Java Compatibility
-//    implementation "io.insert-koin:koin-android-compat:$koin_android_version"
-//    // Jetpack WorkManager
-//    implementation "io.insert-koin:koin-androidx-workmanager:$koin_android_version"
-//    // Navigation Graph
-//    implementation "io.insert-koin:koin-androidx-navigation:$koin_android_version"
-    // Jetpack Compose
-    implementation "io.insert-koin:koin-androidx-compose:3.2.2"
+    testImplementation projectDependencies.JUNIT4
+    androidTestImplementation projectDependencies.COMPOSE_JUNIT4
+    debugImplementation projectDependencies.COMPOSE_TEST_MANIFEST
 
     implementation project(':data')
     implementation project(':domain')
-
 }

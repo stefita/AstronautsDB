@@ -1,5 +1,6 @@
 package com.stefita.astronautsdb.ui.astronautdetails
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.stefita.astronautsdb.common.BaseViewModel
@@ -36,7 +37,7 @@ class AstronautDetailsViewModel(
 
     private fun handleFailure(error: Failure) {
         error.exception.message?.let{
-            // TODO
+            Log.e("Details went wrong: ", it)
         }
     }
 
