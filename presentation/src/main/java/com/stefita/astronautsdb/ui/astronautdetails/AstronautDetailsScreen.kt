@@ -30,12 +30,12 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.stefita.astronautsdb.entities.AstronautSource
-import com.stefita.astronautsdb.ui.navigation.AstronautDetails
 import com.stefita.astronautsdb.ui.theme.RichBlack
 import com.stefita.astronautsdb.ui.theme.RichBlack29Alpha
 import org.koin.androidx.compose.koinViewModel
 
 // TODO Show more data
+// TODO screen scrollable
 @Composable
 fun AstronautDetailsScreen(
     astronautDetailsViewModel: AstronautDetailsViewModel = koinViewModel(),
