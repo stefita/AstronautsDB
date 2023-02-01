@@ -1,5 +1,6 @@
 package com.stefita.data.db
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,7 +16,7 @@ interface AstronautsDao {
     @Query("SELECT * FROM astronauts")
     suspend fun getAllAstronauts(): List<AstronautData>
 
-    @Query("SELECT * FROM astronauts ORDER BY id LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM astronauts ORDER BY id LIMIT :limit OFFSET :offset * :limit")
     suspend fun getAllAstronauts(limit: Int, offset: Int): List<AstronautData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

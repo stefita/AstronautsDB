@@ -1,5 +1,6 @@
 package com.stefita.data.repository
 
+import android.util.Log
 import com.stefita.data.api.RemoteAstronautsApi
 import com.stefita.data.entities.AstronautDataEntityMapper
 import com.stefita.domain.entities.AstronautEntity
@@ -13,8 +14,12 @@ class AstronautsRemoteImpl constructor(private val api: RemoteAstronautsApi): As
         return body.mapNotNull { astronautMapper.mapAstronautToEntity(it) }
     }
 
-    override suspend fun getAstronauts(limit: Int, offset:Int): List<AstronautEntity> {
-        val body = api.getAstronauts(limit, offset).body()?.results ?: return emptyList()
+    override suspend fun getAstronauts(limit: Int, offset: Int): List<AstronautEntity> {
+        val body = api.getAstronauts(
+            limit,
+            limit * offset
+        ).body()?.results ?: return emptyList()
+
         return body.mapNotNull { astronautMapper.mapAstronautToEntity(it) }
     }
 

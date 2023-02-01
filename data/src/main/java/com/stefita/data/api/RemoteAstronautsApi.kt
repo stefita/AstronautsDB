@@ -18,7 +18,8 @@ interface RemoteAstronautsApi {
     @GET("astronaut/")
     suspend fun getAstronauts(
         @Query("limit") limit: Int,
-        @Query("offset") offset: Int
+        @Query("offset") offset: Int,
+        @Query("ordering") ordering: String = "id"
     ): Response<AstronautsResponse>
 
     @Headers("Accept: application/json")

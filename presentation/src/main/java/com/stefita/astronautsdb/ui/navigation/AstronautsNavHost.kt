@@ -26,7 +26,6 @@ fun AstronautsNavHost(
         composable(
             route = AstronautsList.route,
             enterTransition = {
-                // Let's make for a really long fade in
                 slideInHorizontally(initialOffsetX = { 600 })
             },
             popEnterTransition = {

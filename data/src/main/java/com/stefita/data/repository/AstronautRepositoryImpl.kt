@@ -1,5 +1,6 @@
 package com.stefita.data.repository
 
+import android.util.Log
 import com.stefita.domain.entities.AstronautEntity
 import com.stefita.domain.repositories.AstronautRepository
 
@@ -26,9 +27,9 @@ class AstronautRepositoryImpl(
         return if (cachedAstronauts.isEmpty().not()) {
             cachedAstronauts
         } else {
-            val remoteAstronauts = getRemoteAstronauts(limit, offset)
+            val remoteAstronauts =  getRemoteAstronauts(limit, offset)
             local.insertAstronauts(remoteAstronauts)
-            remoteAstronauts
+            return remoteAstronauts
         }
     }
 

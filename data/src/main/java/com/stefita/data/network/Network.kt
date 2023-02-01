@@ -5,6 +5,7 @@ import com.stefita.astronautsdb.data.BuildConfig
 import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,10 +35,12 @@ private fun httpClient(): OkHttpClient {
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         clientBuilder.addInterceptor(httpLoggingInterceptor)
     }
+    clientBuilder.protocols(listOf(Protocol.HTTP_1_1))
     clientBuilder.addInterceptor(BasicAuthInterceptor())
     clientBuilder.addNetworkInterceptor(StethoInterceptor())
     clientBuilder.readTimeout(120, TimeUnit.SECONDS)
     clientBuilder.writeTimeout(120, TimeUnit.SECONDS)
+    clientBuilder.retryOnConnectionFailure(true)
     return clientBuilder.build()
 }
 

@@ -5,10 +5,9 @@ import com.stefita.domain.common.Failure
 import com.stefita.domain.entities.AstronautEntity
 import com.stefita.domain.repositories.AstronautRepository
 
-class GetAstronautsUseCase(private val repository: AstronautRepository) :
-    BaseUseCase<List<AstronautEntity>, GetAstronautsUseCase.Params>() {
+class GetAstronautsUseCase(private val repository: AstronautRepository) : BaseUseCase<List<AstronautEntity>, GetAstronautsUseCase.Params>()  {
 
-    override suspend fun run(params: Params): Either<Failure, List<AstronautEntity>> {
+    override suspend fun run(params: Params): Either<Failure, List<AstronautEntity>?> {
         return try {
             val astronautsList = repository.getAstronauts(
                 params.limit,

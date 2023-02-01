@@ -9,48 +9,48 @@ import com.stefita.domain.entities.AstronautEntity
 @Entity(tableName = "astronauts")
 data class AstronautData(
     @PrimaryKey
-    val id: Int,
-    val age: Int,
+    val id: Int?,
+    val age: Int? = 0,
     @Embedded(prefix = "agency_")
     val agency: AgencyData? = null,
-    val bio: String = "",
+    val bio: String? = "",
     @ColumnInfo(name = "dateOfBirth")
-    val date_of_birth: String = "",
+    val date_of_birth: String? = "",
     @ColumnInfo(name = "dateOfDeath")
-    val date_of_death: String = "",
+    val date_of_death: String? = "",
     @ColumnInfo(name = "firstFlight")
     val first_flight: String?,
     @ColumnInfo(name = "flightsCount")
-    val flights_count: Int,
-    val instagram: String = "",
+    val flights_count: Int? = 0,
+    val instagram: String? = "",
     @ColumnInfo(name = "landingsCount")
-    val landings_count: Int,
+    val landings_count: Int? = 0,
     @ColumnInfo(name = "lastFlight")
     val last_flight: String?,
     val name: String = "",
-    val nationality: String = "",
+    val nationality: String? = "",
     @ColumnInfo(name = "profileImage")
-    val profile_image: String = "",
+    val profile_image: String? = "",
     @ColumnInfo(name = "profileImageThumbnail")
-    val profile_image_thumbnail: String = "",
+    val profile_image_thumbnail: String? = "",
     @Embedded(prefix = "status_")
     val status: StatusData? = null,
-    val twitter: String = "",
+    val twitter: String? = "",
     @Embedded(prefix = "type_")
     val type: TypeData? = null,
-    val url: String = "",
-    val wiki: String = ""
+    val url: String? = "",
+    val wiki: String? = null
 )
 
 class AstronautDataEntityMapper {
 
     fun mapAstronautToEntity(data: AstronautData?): AstronautEntity? = data?.let {
         AstronautEntity(
-            id = data.id,
+            id = data?.id?: 0,
             name = data.name,
             agency = data.agency?.mapDataToEntity(),
             dateOfBirth = data.date_of_birth,
-            age = data.age,
+            age = data.age ?: 0,
             dateOfDeath = data.date_of_death,
             profileImage = data.profile_image,
             profileImageThumbnail = data.profile_image_thumbnail,
@@ -71,7 +71,7 @@ class AstronautEntityDataMapper {
 
     fun mapAstronautToData(response: AstronautEntity): AstronautData = AstronautData(
         id = response.id,
-        name = response.name,
+        name = response.name ?: "",
         agency = AgencyData.mapEntityToData(response.agency),
         date_of_birth = response.dateOfBirth,
         age = response.age,

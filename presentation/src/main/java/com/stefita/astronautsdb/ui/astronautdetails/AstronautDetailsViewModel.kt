@@ -9,6 +9,7 @@ import com.stefita.domain.common.Failure
 import com.stefita.domain.common.Mapper
 import com.stefita.domain.entities.AstronautEntity
 import com.stefita.domain.usecases.GetAstronautByIdUseCase
+import kotlinx.coroutines.launch
 
 class AstronautDetailsViewModel(
     private val getAstronautByIdUseCase: GetAstronautByIdUseCase,
@@ -16,8 +17,8 @@ class AstronautDetailsViewModel(
 ) : BaseViewModel() {
 
     sealed class DetailState {
-        object Loading: DetailState()
-        object NotFound: DetailState()
+        object Loading : DetailState()
+        object NotFound : DetailState()
         data class Success(
             val astronaut: AstronautSource
         ) : DetailState()
@@ -25,10 +26,10 @@ class AstronautDetailsViewModel(
 
     val state = MutableLiveData<DetailState>()
 
-    fun loadDetail(astronautId: Int) {
+    suspend fun loadDetail(astronautId: Int) {
         val params = GetAstronautByIdUseCase.Params(astronautId)
-        getAstronautByIdUseCase(viewModelScope, params) {
-            it.fold(
+        viewModelScope.launch {
+            getAstronautByIdUseCase(params).fold(
                 ::handleFailure,
                 ::handleSuccess
             )
@@ -36,7 +37,7 @@ class AstronautDetailsViewModel(
     }
 
     private fun handleFailure(error: Failure) {
-        error.exception.message?.let{
+        error.exception.message?.let {
             Log.e("Details went wrong: ", it)
         }
     }

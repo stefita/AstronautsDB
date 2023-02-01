@@ -19,6 +19,7 @@ ext.versions = [
         ACCOMPANIST         : "0.27.0",
         COIL                : "2.2.2",
         COIL_COMPOSE        : "2.2.1",
+        COMPOSE_PAGING      : "1.0.0-alpha17",
         COROUTINES          : "1.6.4",
         OKHTTP3             : "4.10.0",
         JUNIT4              : "4.13.1"
@@ -63,6 +64,7 @@ ext.dependancies = [
         COMPOSE_ANIMATION           : "androidx.compose.animation:animation:$versions.COMPOSE",
         COMPOSE_MATERIAL3           : "androidx.compose.material3:material3:$versions.COMPOSE_MATERIAL3",
         ACCOMPANIST_NAV_ANIMATION   : "com.google.accompanist:accompanist-navigation-animation:$versions.ACCOMPANIST",
+        COMPOSE_PAGING              : "androidx.paging:paging-compose:$versions.COMPOSE_PAGING",
 
         COIL                        : "io.coil-kt:coil:$versions.COIL",
         COIL_COMPOSE                : "io.coil-kt:coil-compose:$versions.COIL_COMPOSE",

@@ -8,13 +8,13 @@ import com.stefita.domain.entities.AgencyEntity
 @Entity
 data class AgencyData(
     @PrimaryKey
-    val id: Int,
-    val abbrev: String,
+    val id: Int?,
+    val abbrev: String?,
     @ColumnInfo(name = "countryCode")
-    val country_code: String,
-    val description: String,
+    val country_code: String?,
+    val description: String?,
     @ColumnInfo(name = "foundingYear")
-    val founding_year: String,
+    val founding_year: String?,
     @ColumnInfo(name = "imageUrl")
     val image_url: String?,
     @ColumnInfo(name = "logoUrl")
@@ -45,7 +45,7 @@ data class AgencyData(
                 description = it.description,
                 founding_year = it.foundingYear,
                 logo_url = it.logoUrl,
-                name = it.name,
+                name = it.name ?: "",
                 type = it.type,
                 url = it.url,
                 image_url = it.imageUrl

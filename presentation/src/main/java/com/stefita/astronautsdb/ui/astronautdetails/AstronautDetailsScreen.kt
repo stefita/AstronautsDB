@@ -55,7 +55,7 @@ fun AstronautDetailsScreen(
             }
 
             else -> {
-                // TODO
+                // TODO Show error
                 Text(text = "something went wrong")
             }
         }
@@ -110,7 +110,7 @@ fun DetailsCard(astronaut: AstronautSource) {
             style = MaterialTheme.typography.headlineSmall
         )
         Text(
-            text = astronaut.bio,
+            text = astronaut.bio ?: "",
             modifier = Modifier.padding(8.dp),
             style = MaterialTheme.typography.bodyMedium
         )
@@ -118,7 +118,7 @@ fun DetailsCard(astronaut: AstronautSource) {
 }
 
 @Composable
-fun ProfilePictureSmallMedium(imgUrl: String, name: String) {
+fun ProfilePictureSmallMedium(imgUrl: String?, name: String?) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -148,7 +148,7 @@ fun ProfilePictureSmallMedium(imgUrl: String, name: String) {
                 .padding(8.dp)
         ) {
             Text(
-                text = name,
+                text = name ?: "",
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp)
             )
@@ -157,7 +157,7 @@ fun ProfilePictureSmallMedium(imgUrl: String, name: String) {
 }
 
 @Composable
-fun ProfilePictureLarge(imgUrl: String, name: String) {
+fun ProfilePictureLarge(imgUrl: String?, name: String?) {
     Box(
         contentAlignment = Alignment.TopStart,
         modifier = Modifier
@@ -193,7 +193,7 @@ fun ProfilePictureLarge(imgUrl: String, name: String) {
                     .padding(8.dp)
             ) {
                 Text(
-                    text = name,
+                    text = name ?: "",
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(start = 8.dp, end = 8.dp)
                 )
