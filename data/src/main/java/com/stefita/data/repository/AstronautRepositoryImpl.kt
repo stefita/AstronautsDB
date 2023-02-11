@@ -1,6 +1,5 @@
 package com.stefita.data.repository
 
-import android.util.Log
 import com.stefita.domain.entities.AstronautEntity
 import com.stefita.domain.repositories.AstronautRepository
 

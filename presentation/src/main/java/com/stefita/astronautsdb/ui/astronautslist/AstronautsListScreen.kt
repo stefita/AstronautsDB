@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,10 +22,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +46,7 @@ import coil.request.ImageRequest
 import com.stefita.astronautsdb.entities.Agency
 import com.stefita.astronautsdb.entities.AstronautSource
 import com.stefita.astronautsdb.presentation.R
+import com.stefita.astronautsdb.ui.theme.Gainsboro
 import org.koin.androidx.compose.koinViewModel
 
 // TODO Show more useful data in the name card
@@ -52,34 +57,59 @@ fun AstronautsListScreen(
     onAstronautClicked: (Int) -> Unit
 ) {
     val astronautsList = viewModel.astronautFlow.collectAsLazyPagingItems()
+    val listState: LazyListState = rememberLazyListState()
+
+    val gridState: LazyGridState = rememberLazyGridState(
+        initialFirstVisibleItemIndex = listState.firstVisibleItemIndex,
+        initialFirstVisibleItemScrollOffset = listState.firstVisibleItemScrollOffset
+    )
 
     BoxWithConstraints {
         if (maxWidth < 480.dp) {
             AstronautListAsColumn(
                 astronauts = astronautsList,
+                listState = listState,
+                gridState = gridState,
                 onAstronautClicked = onAstronautClicked
             )
         } else {
             AstronautsListAsGrid(
                 astronauts = astronautsList,
+                gridState = gridState,
+                listState = listState,
                 onAstronautClicked = onAstronautClicked
             )
         }
     }
 
+    LaunchedEffect(listState) {
+        gridState.scrollToItem(
+            listState.firstVisibleItemIndex,
+            listState.firstVisibleItemScrollOffset
+        )
+    }
+
+    LaunchedEffect(gridState) {
+        listState.scrollToItem(
+            gridState.firstVisibleItemIndex,
+            gridState.firstVisibleItemScrollOffset
+        )
+    }
 }
 
 @Composable
 fun AstronautListAsColumn(
     astronauts: LazyPagingItems<AstronautSource>,
+    listState: LazyListState,
+    gridState: LazyGridState,
     onAstronautClicked: (Int) -> Unit
 ) {
-    val listState: LazyListState = rememberLazyListState()
 
+    val composableScope = rememberCoroutineScope()
     if (astronauts.itemCount == 0) {
         if (astronauts.loadState.source.prepend != LoadState.NotLoading(false)) {
             // your empty view
-            LazyColumn() {
+            LazyColumn {
                 item { Text(text = "Header") }
                 item { Text(text = "Footer") }
             }
@@ -90,16 +120,81 @@ fun AstronautListAsColumn(
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
+            when (val state = astronauts.loadState.refresh) {
+                is LoadState.NotLoading -> Unit
+                is LoadState.Loading -> {
+
+                }
+
+                is LoadState.Error -> {
+                    // TODO error state
+                }
+            }
+
             items(astronauts.itemCount) { index ->
                 astronauts[index]?.let {
-                    AstronautCell(
-                        astronautSource = it,
+                    AddItemToList(
+                        astronaut = it,
                         cellType = CellType.List,
                         onAstronautClicked = onAstronautClicked
                     )
                 }
             }
+
+            when (val state = astronauts.loadState.append) {
+                is LoadState.NotLoading -> Unit
+                is LoadState.Loading -> {
+                    item {
+                        LoadingItem(CellType.List)
+                    }
+                }
+
+                is LoadState.Error -> {
+                    // TODO Error state
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun LoadingItem(cellType: CellType) {
+    Card(
+        colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 8.dp
+        )
+    ) {
+        if (cellType is CellType.List) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                LoadingItemColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
+        } else {
+            LoadingItemColumn(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
+                    .height(128.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun LoadingItemColumn(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(color = Gainsboro)
     }
 }
 
@@ -110,7 +205,6 @@ fun AstronautCell(
     cellType: CellType,
     onAstronautClicked: (Int) -> Unit
 ) {
-
     Card(
         colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.elevatedCardElevation(
@@ -134,16 +228,17 @@ fun AstronautCell(
 @Composable
 fun AstronautsListAsGrid(
     astronauts: LazyPagingItems<AstronautSource>,
+    gridState: LazyGridState,
+    listState: LazyListState,
     onAstronautClicked: (Int) -> Unit
 ) {
-    val gridState: LazyGridState = rememberLazyGridState()
-
+    val composableScope = rememberCoroutineScope()
     LazyVerticalGrid(
         state = gridState,
         columns = GridCells.Adaptive(148.dp),
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         items(astronauts.itemCount) { index ->
             AstronautCell(
@@ -151,6 +246,19 @@ fun AstronautsListAsGrid(
                 cellType = CellType.Grid,
                 onAstronautClicked = onAstronautClicked
             )
+        }
+
+        when (val state = astronauts.loadState.append) {
+            is LoadState.NotLoading -> Unit
+            is LoadState.Loading -> {
+                item {
+                    LoadingItem(CellType.Grid)
+                }
+            }
+
+            is LoadState.Error -> {
+                // TODO Error state
+            }
         }
     }
 }
@@ -204,6 +312,19 @@ fun AstronautGridCell(astronaut: AstronautSource) {
             style = MaterialTheme.typography.bodyMedium
         )
     }
+}
+
+@Composable
+fun AddItemToList(
+    astronaut: AstronautSource,
+    cellType: CellType,
+    onAstronautClicked: (Int) -> Unit
+) {
+    AstronautCell(
+        astronautSource = astronaut,
+        cellType = cellType,
+        onAstronautClicked = onAstronautClicked
+    )
 }
 
 @Composable
