@@ -14,7 +14,9 @@ class AgencyEntityMapper: Mapper<AgencyEntity, AgencySource>() {
         logoUrl = from.logoUrl,
         name = from.name,
         type = from.type,
-        url = from.url
+        url = from.url,
+        abbr = from.abbrev,
+        imgUrl = from.imageUrl,
+        administrator = from.administrator
     )
-
 }

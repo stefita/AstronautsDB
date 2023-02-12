@@ -21,7 +21,8 @@ data class AgencyData(
     val logo_url: String?,
     val name: String,
     val type: String?,
-    val url: String?
+    val url: String?,
+    val administrator: String?
 ) {
     fun mapDataToEntity(): AgencyEntity = AgencyEntity(
         id = this.id,
@@ -33,7 +34,8 @@ data class AgencyData(
         name = this.name,
         type = this.type,
         url = this.url,
-        imageUrl = this.image_url
+        imageUrl = this.image_url,
+        administrator = this.administrator
     )
 
     companion object {
@@ -48,7 +50,8 @@ data class AgencyData(
                 name = it.name ?: "",
                 type = it.type,
                 url = it.url,
-                image_url = it.imageUrl
+                image_url = it.imageUrl,
+                administrator = it.administrator
             )
         }
     }

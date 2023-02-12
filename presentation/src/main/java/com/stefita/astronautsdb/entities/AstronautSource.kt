@@ -2,7 +2,7 @@ package com.stefita.astronautsdb.entities
 
 data class AstronautSource(
     val age: Int = 0,
-    val agency: Agency? = null,
+    val agency: AgencySource? = null,
     val bio: String? = "",
     val dateOfBirth: String? = "",
     val dateOfDeath: String? = null,
@@ -11,7 +11,7 @@ data class AstronautSource(
     val id: Int? = 0,
     val instagram: String? = "",
     val landingsCount: Int? = 0,
-    val last_flight: String? = "",
+    val lastFlight: String? = "",
     val name: String? = "",
     val nationality: String? = "",
     val profileImage: String? = "",

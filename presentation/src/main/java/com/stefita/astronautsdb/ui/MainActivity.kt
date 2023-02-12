@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -69,10 +74,29 @@ fun AstronautsDbApp() {
                 )
             }
         ) { innerPadding ->
+            val listState: LazyListState = rememberLazyListState()
+            val gridState: LazyGridState = rememberLazyGridState()
+
             AstronautsNavHost(
                 navController = navController,
+                listState = listState,
+                gridState = gridState,
                 modifier = Modifier.padding(innerPadding)
             )
+
+            LaunchedEffect(listState) {
+                gridState.scrollToItem(
+                    listState.firstVisibleItemIndex,
+                    listState.firstVisibleItemScrollOffset
+                )
+            }
+
+            LaunchedEffect(gridState) {
+                listState.scrollToItem(
+                    gridState.firstVisibleItemIndex,
+                    gridState.firstVisibleItemScrollOffset
+                )
+            }
         }
     }
 }

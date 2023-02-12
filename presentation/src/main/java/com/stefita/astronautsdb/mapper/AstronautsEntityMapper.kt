@@ -6,10 +6,13 @@ import com.stefita.domain.entities.AstronautEntity
 
 class AstronautsEntityMapper : Mapper<AstronautEntity, AstronautSource>() {
 
+    private val agencyEntityMapper = AgencyEntityMapper()
+
     override fun mapFrom(data: AstronautEntity): AstronautSource = AstronautSource(
         id = data.id,
         name = data.name,
         dateOfBirth = data.dateOfBirth,
+        agency = data.agency?.let {agencyEntityMapper.mapFrom(it) },
         age = data.age,
         dateOfDeath = data.dateOfDeath,
         profileImage = data.profileImage,

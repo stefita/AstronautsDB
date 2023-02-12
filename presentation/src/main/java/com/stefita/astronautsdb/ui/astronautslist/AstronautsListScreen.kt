@@ -17,8 +17,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,8 +25,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +39,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.stefita.astronautsdb.entities.Agency
+import com.stefita.astronautsdb.entities.AgencySource
 import com.stefita.astronautsdb.entities.AstronautSource
 import com.stefita.astronautsdb.presentation.R
 import com.stefita.astronautsdb.ui.theme.Gainsboro
@@ -53,47 +49,27 @@ import org.koin.androidx.compose.koinViewModel
 // TODO Show Loading States
 @Composable
 fun AstronautsListScreen(
+    listState: LazyListState,
+    gridState: LazyGridState,
     viewModel: AstronautsViewModel = koinViewModel(),
     onAstronautClicked: (Int) -> Unit
 ) {
     val astronautsList = viewModel.astronautFlow.collectAsLazyPagingItems()
-    val listState: LazyListState = rememberLazyListState()
-
-    val gridState: LazyGridState = rememberLazyGridState(
-        initialFirstVisibleItemIndex = listState.firstVisibleItemIndex,
-        initialFirstVisibleItemScrollOffset = listState.firstVisibleItemScrollOffset
-    )
 
     BoxWithConstraints {
         if (maxWidth < 480.dp) {
             AstronautListAsColumn(
                 astronauts = astronautsList,
                 listState = listState,
-                gridState = gridState,
                 onAstronautClicked = onAstronautClicked
             )
         } else {
             AstronautsListAsGrid(
                 astronauts = astronautsList,
                 gridState = gridState,
-                listState = listState,
                 onAstronautClicked = onAstronautClicked
             )
         }
-    }
-
-    LaunchedEffect(listState) {
-        gridState.scrollToItem(
-            listState.firstVisibleItemIndex,
-            listState.firstVisibleItemScrollOffset
-        )
-    }
-
-    LaunchedEffect(gridState) {
-        listState.scrollToItem(
-            gridState.firstVisibleItemIndex,
-            gridState.firstVisibleItemScrollOffset
-        )
     }
 }
 
@@ -101,11 +77,8 @@ fun AstronautsListScreen(
 fun AstronautListAsColumn(
     astronauts: LazyPagingItems<AstronautSource>,
     listState: LazyListState,
-    gridState: LazyGridState,
     onAstronautClicked: (Int) -> Unit
 ) {
-
-    val composableScope = rememberCoroutineScope()
     if (astronauts.itemCount == 0) {
         if (astronauts.loadState.source.prepend != LoadState.NotLoading(false)) {
             // your empty view
@@ -229,10 +202,8 @@ fun AstronautCell(
 fun AstronautsListAsGrid(
     astronauts: LazyPagingItems<AstronautSource>,
     gridState: LazyGridState,
-    listState: LazyListState,
     onAstronautClicked: (Int) -> Unit
 ) {
-    val composableScope = rememberCoroutineScope()
     LazyVerticalGrid(
         state = gridState,
         columns = GridCells.Adaptive(148.dp),
@@ -276,14 +247,12 @@ fun AstronautListCell(astronaut: AstronautSource) {
                 .weight(1f, fill = true)
                 .padding(horizontal = 16.dp)
         ) {
-            Text(
-                text = astronaut.name ?: "",
-                style = MaterialTheme.typography.headlineSmall
+            NameText(
+                astronaut = astronaut,
+                maxLines = 1,
             )
-            Text(
-                text = "ID #${astronaut.id}",
-                style = MaterialTheme.typography.bodyMedium
-            )
+
+            AgencyText(astronaut = astronaut)
         }
 
     }
@@ -296,19 +265,45 @@ fun AstronautGridCell(astronaut: AstronautSource) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(128.dp)
+            .height(140.dp)
     ) {
         AstronautProfileThumb(imgUrl = astronaut.profileImageThumbnail)
 
-        Text(
-            text = astronaut.name ?: "",
+        NameText(
+            astronaut = astronaut,
             maxLines = 2,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.weight(1f, fill = true)
+            // modifier = Modifier.weight(1f, fill = true)
         )
+
+        AgencyText(astronaut = astronaut, textAlign = TextAlign.Center)
+    }
+}
+
+@Composable
+fun NameText(
+    astronaut: AstronautSource,
+    maxLines: Int = Int.MAX_VALUE,
+    textAlign: TextAlign? = null,
+    modifier: Modifier = Modifier
+) {
+    astronaut.name?.let {
         Text(
-            text = "Flights #${astronaut.flightsCount}",
+            text = it,
+            maxLines = maxLines,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = modifier.padding(bottom = 4.dp)
+        )
+    }
+}
+
+@Composable
+fun AgencyText(astronaut: AstronautSource, textAlign: TextAlign? = null) {
+    astronaut.agency?.name?.let {
+        Text(
+            text = it,
+            textAlign = textAlign,
             style = MaterialTheme.typography.bodyMedium
         )
     }
@@ -350,14 +345,14 @@ fun AstronautRowPreview() {
         val astronaut = AstronautSource(
             id = 12,
             name = "Alexander Gerst",
-            agency = Agency(
-                abbrev = "NASA",
+            agency = AgencySource(
+                abbr = "NASA",
                 administrator = "Michael Moore",
                 countryCode = "USA",
                 description = "Lorem ipsum",
                 foundingYear = "1930",
                 id = 12,
-                imageUrl = "",
+                imgUrl = "",
                 logoUrl = "",
                 name = "NASA",
                 type = "Government",

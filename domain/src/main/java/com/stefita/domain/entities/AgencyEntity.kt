@@ -10,5 +10,6 @@ data class AgencyEntity(
     val name: String?,
     val type: String?,
     val url: String?,
-    val imageUrl: String?
+    val imageUrl: String?,
+    val administrator: String?
 )

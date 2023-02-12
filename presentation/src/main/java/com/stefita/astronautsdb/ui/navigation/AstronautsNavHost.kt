@@ -2,6 +2,8 @@ package com.stefita.astronautsdb.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -15,6 +17,8 @@ import com.stefita.astronautsdb.ui.astronautslist.AstronautsListScreen
 @Composable
 fun AstronautsNavHost(
     navController: NavHostController,
+    listState: LazyListState,
+    gridState: LazyGridState,
     modifier: Modifier = Modifier
 ) {
     AnimatedNavHost(
@@ -22,7 +26,6 @@ fun AstronautsNavHost(
         startDestination = AstronautsList.route,
         modifier = modifier
     ) {
-
         composable(
             route = AstronautsList.route,
             enterTransition = {
@@ -33,6 +36,8 @@ fun AstronautsNavHost(
             }
         ) {
             AstronautsListScreen(
+                listState = listState,
+                gridState = gridState,
                 onAstronautClicked = { astronautId ->
                     navController.navigateToAstronautDetails(
                         astronautId
