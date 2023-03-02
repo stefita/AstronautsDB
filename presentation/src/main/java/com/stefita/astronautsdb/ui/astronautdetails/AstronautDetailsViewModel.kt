@@ -24,7 +24,7 @@ class AstronautDetailsViewModel(
         ) : DetailState()
     }
 
-    val state = MutableLiveData<DetailState>()
+    val state = MutableLiveData<DetailState>(DetailState.Loading)
 
     suspend fun loadDetail(astronautId: Int) {
         val params = GetAstronautByIdUseCase.Params(astronautId)

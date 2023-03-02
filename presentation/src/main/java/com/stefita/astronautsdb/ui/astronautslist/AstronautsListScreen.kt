@@ -2,7 +2,9 @@ package com.stefita.astronautsdb.ui.astronautslist
 
 import AstronautsDbTheme
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,9 +33,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -42,11 +46,10 @@ import coil.request.ImageRequest
 import com.stefita.astronautsdb.entities.AgencySource
 import com.stefita.astronautsdb.entities.AstronautSource
 import com.stefita.astronautsdb.presentation.R
+import com.stefita.astronautsdb.ui.common.AstronautImage
 import com.stefita.astronautsdb.ui.theme.Gainsboro
 import org.koin.androidx.compose.koinViewModel
 
-// TODO Show more useful data in the name card
-// TODO Show Loading States
 @Composable
 fun AstronautsListScreen(
     listState: LazyListState,
@@ -81,11 +84,7 @@ fun AstronautListAsColumn(
 ) {
     if (astronauts.itemCount == 0) {
         if (astronauts.loadState.source.prepend != LoadState.NotLoading(false)) {
-            // your empty view
-            LazyColumn {
-                item { Text(text = "Header") }
-                item { Text(text = "Footer") }
-            }
+            EmptyListView()
         }
     } else {
         LazyColumn(
@@ -93,17 +92,6 @@ fun AstronautListAsColumn(
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            when (val state = astronauts.loadState.refresh) {
-                is LoadState.NotLoading -> Unit
-                is LoadState.Loading -> {
-
-                }
-
-                is LoadState.Error -> {
-                    // TODO error state
-                }
-            }
-
             items(astronauts.itemCount) { index ->
                 astronauts[index]?.let {
                     AddItemToList(
@@ -114,7 +102,23 @@ fun AstronautListAsColumn(
                 }
             }
 
-            when (val state = astronauts.loadState.append) {
+            when (astronauts.loadState.refresh) {
+                is LoadState.NotLoading -> Unit
+                is LoadState.Loading -> {
+                    item {
+                        CircularProgressIndicator()
+                        LoadingScreen()
+                    }
+                }
+
+                is LoadState.Error -> {
+                    item {
+                        EmptyListView()
+                    }
+                }
+            }
+
+            when (astronauts.loadState.append) {
                 is LoadState.NotLoading -> Unit
                 is LoadState.Loading -> {
                     item {
@@ -123,10 +127,34 @@ fun AstronautListAsColumn(
                 }
 
                 is LoadState.Error -> {
-                    // TODO Error state
+                    item {
+                        ErrorItem(
+                            errorMessage = (astronauts.loadState.append as LoadState.Error).error.message,
+                            cellType = CellType.List
+                        )
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun EmptyListView() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = stringResource(id = R.string.list_empty_title),
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Text(
+            text = stringResource(id = R.string.list_empty_body),
+            modifier = Modifier.padding(top = 8.dp),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
@@ -158,6 +186,53 @@ fun LoadingItem(cellType: CellType) {
             )
         }
     }
+}
+
+@Composable
+fun ErrorItem(errorMessage: String?, cellType: CellType) {
+    Card(
+        colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 8.dp
+        )
+    ) {
+        if (cellType is CellType.List) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    ErrorContentView(errorMessage)
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
+                    .height(128.dp)
+            ) {
+                ErrorContentView(errorMessage)
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorContentView(errorMessage: String? = null) {
+    Text(
+        text = stringResource(id = R.string.list_error_title),
+        style = MaterialTheme.typography.headlineSmall
+    )
+    Text(
+        text = errorMessage ?: stringResource(id = R.string.list_error_body_generic),
+        modifier = Modifier.padding(top = 8.dp),
+        style = MaterialTheme.typography.bodyMedium
+    )
 }
 
 @Composable
@@ -212,14 +287,32 @@ fun AstronautsListAsGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         items(astronauts.itemCount) { index ->
-            AstronautCell(
-                astronautSource = astronauts[index]!!,
-                cellType = CellType.Grid,
-                onAstronautClicked = onAstronautClicked
-            )
+            astronauts[index]?.let {
+                AstronautCell(
+                    astronautSource = it,
+                    cellType = CellType.Grid,
+                    onAstronautClicked = onAstronautClicked
+                )
+            }
         }
 
-        when (val state = astronauts.loadState.append) {
+        when (astronauts.loadState.refresh) {
+            is LoadState.NotLoading -> Unit
+            is LoadState.Loading -> {
+                item {
+                    CircularProgressIndicator()
+                    LoadingScreen()
+                }
+            }
+
+            is LoadState.Error -> {
+                item {
+                    EmptyListView()
+                }
+            }
+        }
+
+        when (astronauts.loadState.append) {
             is LoadState.NotLoading -> Unit
             is LoadState.Loading -> {
                 item {
@@ -228,7 +321,12 @@ fun AstronautsListAsGrid(
             }
 
             is LoadState.Error -> {
-                // TODO Error state
+                item {
+                    ErrorItem(
+                        errorMessage = (astronauts.loadState.append as LoadState.Error).error.message,
+                        cellType = CellType.Grid
+                    )
+                }
             }
         }
     }
@@ -324,18 +422,52 @@ fun AddItemToList(
 
 @Composable
 fun AstronautProfileThumb(imgUrl: String?) {
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(imgUrl)
-            .crossfade(true)
-            .build(),
-        placeholder = painterResource(R.mipmap.ic_launcher_foreground),
-        contentDescription = "test",
-        contentScale = ContentScale.Crop,
+    AstronautImage(
+        imageUrl = imgUrl,
         modifier = Modifier
             .size(64.dp)
             .clip(CircleShape)
     )
+}
+
+@Composable
+fun LoadingScreen() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        ConstraintLayout(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val (img, progress) = createRefs()
+
+            Image(
+                painter = painterResource(R.mipmap.ic_launcher_foreground),
+                contentDescription = "Loading",
+                modifier = Modifier.constrainAs(img) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+
+            CircularProgressIndicator(
+                color = Gainsboro,
+                modifier = Modifier
+                    .size(108.dp)
+                    .constrainAs(progress) {
+                        top.linkTo(img.top)
+                        bottom.linkTo(img.bottom)
+                        start.linkTo(img.start)
+                        end.linkTo(img.end)
+                    }
+            )
+        }
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun LoadingScreenPreview() {
+    LoadingScreen()
 }
 
 @Preview(uiMode = UI_MODE_NIGHT_YES)

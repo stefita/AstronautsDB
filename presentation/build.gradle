@@ -68,6 +68,8 @@ dependencies {
     implementation projectDependencies.COMPOSE_ANIMATION
     implementation projectDependencies.ACCOMPANIST_NAV_ANIMATION
     implementation projectDependencies.COMPOSE_PAGING
+    implementation projectDependencies.COMPOSE_CONSTRAINT_LAYOUT
+    implementation projectDependencies.COMPOSE_LOTTIE
 
     implementation projectDependencies.COIL
     implementation projectDependencies.COIL_COMPOSE

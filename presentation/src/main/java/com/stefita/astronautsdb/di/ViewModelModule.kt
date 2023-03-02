@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 val viewModels = module {
     viewModel {
-        AstronautsViewModel(getAstronautsUseCase = get(), mapper = AstronautsEntityMapper())
+        AstronautsViewModel(mapper = AstronautsEntityMapper())
     }
     viewModel {
         AstronautDetailsViewModel(

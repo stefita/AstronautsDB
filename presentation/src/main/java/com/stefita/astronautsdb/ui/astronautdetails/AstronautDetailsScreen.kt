@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.stefita.astronautsdb.entities.AstronautSource
+import com.stefita.astronautsdb.ui.common.AstronautImage
 import com.stefita.astronautsdb.ui.theme.RichBlack
 import com.stefita.astronautsdb.ui.theme.RichBlack29Alpha
 import org.koin.androidx.compose.koinViewModel
@@ -123,21 +124,7 @@ fun ProfilePictureSmallMedium(imgUrl: String?, name: String?) {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(imgUrl)
-                .memoryCacheKey(imgUrl)
-                .diskCacheKey(imgUrl)
-                .diskCachePolicy(CachePolicy.ENABLED)
-                .memoryCachePolicy(CachePolicy.ENABLED)
-                .build(),
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
-        )
+        AstronautProfilePicture(imgUrl = imgUrl)
 
         ElevatedCard(
             shape = RoundedCornerShape(8.dp),
@@ -168,21 +155,7 @@ fun ProfilePictureLarge(imgUrl: String?, name: String?) {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imgUrl)
-                    .memoryCacheKey(imgUrl)
-                    .diskCacheKey(imgUrl)
-                    .diskCachePolicy(CachePolicy.ENABLED)
-                    .memoryCachePolicy(CachePolicy.ENABLED)
-                    .build(),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
-            )
+            AstronautProfilePicture(imgUrl = imgUrl)
 
             ElevatedCard(
                 shape = RoundedCornerShape(8.dp),
@@ -200,6 +173,17 @@ fun ProfilePictureLarge(imgUrl: String?, name: String?) {
             }
         }
     }
+}
+
+@Composable
+fun AstronautProfilePicture(imgUrl: String?) {
+    AstronautImage(
+        imageUrl = imgUrl,
+        modifier =  Modifier
+            .fillMaxWidth()
+            .aspectRatio(1f)
+            .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+    )
 }
 
 @Preview

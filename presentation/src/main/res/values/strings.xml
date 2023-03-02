@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">AstronautsDB</string>
-    <string name="seasons">All seasons</string>
+
+    <string name="list_empty_title">No astronauts found</string>
+    <string name="list_empty_body">Sorry, we couldn\'t find any astronauts. Please refresh or try again later</string>
+
+    <string name="list_error_title">Error</string>
+    <string name="list_error_body_generic">Sorry, an error occurred, while trying to load more results</string>
 </resources>
