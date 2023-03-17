@@ -279,53 +279,59 @@ fun AstronautsListAsGrid(
     gridState: LazyGridState,
     onAstronautClicked: (Int) -> Unit
 ) {
-    LazyVerticalGrid(
-        state = gridState,
-        columns = GridCells.Adaptive(148.dp),
-        contentPadding = PaddingValues(8.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-        items(astronauts.itemCount) { index ->
-            astronauts[index]?.let {
-                AstronautCell(
-                    astronautSource = it,
-                    cellType = CellType.Grid,
-                    onAstronautClicked = onAstronautClicked
-                )
-            }
+    if (astronauts.itemCount == 0) {
+        if (astronauts.loadState.source.prepend != LoadState.NotLoading(false)) {
+            EmptyListView()
         }
-
-        when (astronauts.loadState.refresh) {
-            is LoadState.NotLoading -> Unit
-            is LoadState.Loading -> {
-                item {
-                    CircularProgressIndicator()
-                    LoadingScreen()
-                }
-            }
-
-            is LoadState.Error -> {
-                item {
-                    EmptyListView()
-                }
-            }
-        }
-
-        when (astronauts.loadState.append) {
-            is LoadState.NotLoading -> Unit
-            is LoadState.Loading -> {
-                item {
-                    LoadingItem(CellType.Grid)
-                }
-            }
-
-            is LoadState.Error -> {
-                item {
-                    ErrorItem(
-                        errorMessage = (astronauts.loadState.append as LoadState.Error).error.message,
-                        cellType = CellType.Grid
+    } else {
+        LazyVerticalGrid(
+            state = gridState,
+            columns = GridCells.Adaptive(148.dp),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            items(astronauts.itemCount) { index ->
+                astronauts[index]?.let {
+                    AstronautCell(
+                        astronautSource = it,
+                        cellType = CellType.Grid,
+                        onAstronautClicked = onAstronautClicked
                     )
+                }
+            }
+
+            when (astronauts.loadState.refresh) {
+                is LoadState.NotLoading -> Unit
+                is LoadState.Loading -> {
+                    item {
+                        CircularProgressIndicator()
+                        LoadingScreen()
+                    }
+                }
+
+                is LoadState.Error -> {
+                    item {
+                        EmptyListView()
+                    }
+                }
+            }
+
+            when (astronauts.loadState.append) {
+                is LoadState.NotLoading -> Unit
+                is LoadState.Loading -> {
+                    item {
+                        LoadingItem(CellType.Grid)
+                    }
+                }
+
+                is LoadState.Error -> {
+                    item {
+                        ErrorItem(
+                            errorMessage = (astronauts.loadState.append as LoadState.Error).error.message,
+                            cellType = CellType.Grid
+                        )
+                    }
                 }
             }
         }

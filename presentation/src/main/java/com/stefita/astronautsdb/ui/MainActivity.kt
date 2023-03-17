@@ -66,6 +66,9 @@ fun AstronautsDbApp() {
             astronautsDbScreens.find { currentDestination?.route?.contains(it.route) ?: false }
                 ?: AstronautsList
 
+        val listState: LazyListState = rememberLazyListState()
+        val gridState: LazyGridState = rememberLazyGridState()
+
         Scaffold(
             topBar = {
                 AstronautsDbAppBar(
@@ -74,29 +77,26 @@ fun AstronautsDbApp() {
                 )
             }
         ) { innerPadding ->
-            val listState: LazyListState = rememberLazyListState()
-            val gridState: LazyGridState = rememberLazyGridState()
-
             AstronautsNavHost(
                 navController = navController,
                 listState = listState,
                 gridState = gridState,
                 modifier = Modifier.padding(innerPadding)
             )
+        }
 
-            LaunchedEffect(listState) {
-                gridState.scrollToItem(
-                    listState.firstVisibleItemIndex,
-                    listState.firstVisibleItemScrollOffset
-                )
-            }
+        LaunchedEffect(listState) {
+            gridState.scrollToItem(
+                listState.firstVisibleItemIndex,
+                listState.firstVisibleItemScrollOffset
+            )
+        }
 
-            LaunchedEffect(gridState) {
-                listState.scrollToItem(
-                    gridState.firstVisibleItemIndex,
-                    gridState.firstVisibleItemScrollOffset
-                )
-            }
+        LaunchedEffect(gridState) {
+            listState.scrollToItem(
+                gridState.firstVisibleItemIndex,
+                gridState.firstVisibleItemScrollOffset
+            )
         }
     }
 }
